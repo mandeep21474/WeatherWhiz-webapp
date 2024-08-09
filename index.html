@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherWhiz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head> 
+<body>
+        <h1 id="welcome">Welcome to WeatherWhiz</h1>
+ 
+    <div id="left">
+        <div id="Allinfo">
+            <div id="search">
+                <img id="geolocation" src="pics/location.png">
+                <input type="text" placeholder="Enter a country or city" id="City" >
+                <button id="butt">Search</button> 
+            </div>
+            <img id="weather-icon" alt="Weather Icon">
+            <div id="temp"></div>
+            <div id="aboutweather"></div>
+        </div>
+        <div id="otherinfo">
+            <div id="humidity" class="other"></div>
+            <div id="visibility" class="other"></div>
+            <div id="windspeed" class="other"></div>
+        </div>
+    </div>
+    <div id="right">
+        <p class="Upcoming24hr">Upcoming hours</p>
+        <div id="dayinfo">
+
+            <div class="hourly-item"></div>
+            <div class="hourly-item"></div>
+            <div class="hourly-item"></div>
+            <div class="hourly-item"></div>
+            <div class="hourly-item"></div>
+            <div class="hourly-item"></div>
+            <div class="hourly-item"></div>
+            <div class="hourly-item"></div>
+        </div> 
+        <br>
+        <div id="rightbottom">
+            <div id="rleft">
+                <p class="Todaysun">Today's sunrise and sunset</p>
+                <div id="aboutsun">
+                    <img id="sunrise" alt="sun_rise">
+                    <p id="sunrisetime"></p>
+                    <br>
+                    <img id="sunset" alt="sun_set">
+                    <img id="clouds" alt="sun_set">
+                    <p id="sunsettime"></p>
+                </div>
+            </div>
+            <div id="rright">
+                <p class="fourdays">Forecast</p>
+                <div id="nextfourdays">
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
