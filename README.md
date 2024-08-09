@@ -1,2 +1,1 @@
-# WeatherWhiz-webapp
-Developed a sleek and responsive web application that delivers real-time weather insights with an intuitive and visually captivating interface. Integrated the Geolocation API for seamless, location-based weather updates, automatically displaying current weather conditions.
+Developed a sleek and responsive web application that delivers real-time weather insights with an intuitive and visually captivating interface. Integrated the Geolocation API for seamless, location-based weather updates, automatically displaying current weather conditions. Powered by the OpenWeatherMap API, the platform provides a precise 5-day forecast and a comprehensive 24-hour breakdown in 3-hour intervals, ensuring users are always prepared for what's ahead.
