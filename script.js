@@ -16,6 +16,8 @@ let search=document.getElementById("butt");
 
 function display(data){
     // Code to display current weather data
+    // console.log("displaying current detail");
+    // console.log(data);
     let aboutweather = document.getElementById('aboutweather');
     let weather_Icon = document.getElementById('weather-icon');
     let tempDiv = document.getElementById('temp');
@@ -78,22 +80,16 @@ function display(data){
         let weatherdetail = data.weather[0].description;
         let temperature = Math.round(data.main.temp - 273.15); 
         let timezoneOffset = data.timezone; // getting Timezone from data 
-        let localTime = new Date((new Date()).getTime() + timezoneOffset * 1000); //adding that time zone to UTC to get localtime
+        let utctime=data.dt;
+        let timee = new Date(utctime* 1000); 
         let get_humidity=data.main.humidity;
         let get_visibility=data.visibility/1000; // in km
         let get_windspeed=data.wind.speed; 
         get_windspeed=((get_windspeed*3600)/1000).toFixed(3); // in km/hr upto 3 decimal place
     // date format
-    let options = { 
-            month: 'long', 
-            day: 'numeric' ,
-        weekday: 'long', 
-        year: 'numeric'
-        
-        };
-        
-        let formattedDate = localTime.toLocaleDateString('en-US', options); // to convert into readable format
-    
+        let formattedDate = timee.toUTCString();
+        formattedDate = formattedDate.split(' ').slice(0, 4).join(' ');
+
         let iconCode = data.weather[0].icon;
         let urloficon = `https://openweathermap.org/img/wn/${iconCode}@4x.png`;
 
@@ -103,8 +99,8 @@ function display(data){
         let sunset = data.sys.sunset;
         
         // Convert from Unix timestamp to a readable format
-        let sunriseDate = new Date(sunrise * 1000);
-        let sunsetDate = new Date(sunset * 1000);
+        let sunriseDate = new Date((sunrise+data.timezone) * 1000);
+        let sunsetDate = new Date((sunset+data.timezone) * 1000);
 
         sunriseimg.src=`pics/sun.png`;
         sunriseimg.alt='sun_rise';
@@ -117,8 +113,25 @@ function display(data){
         let sunsettime=document.getElementById('sunsettime');
         let sunrisetime=document.getElementById('sunrisetime');
 
-        sunrisetime.innerHTML=sunriseDate.toLocaleTimeString();
-        sunsettime.innerHTML=sunsetDate.toLocaleTimeString();
+        // for sunrise time
+        let hours = sunriseDate.getUTCHours();
+        let minutes = sunriseDate.getUTCMinutes();
+        let ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        let sunriseDatetoput = hours + ':' + minutes + ' ' + ampm;
+        // for sunset time
+        let hoursforsunset = sunsetDate.getUTCHours();
+        let minutesforsunset = sunsetDate.getUTCMinutes();
+        let ampmforsunset = hours >= 12 ? 'PM' : 'AM';
+        hoursforsunset = hoursforsunset % 12;
+        hoursforsunset = hoursforsunset ? hoursforsunset : 12; // the hour '0' should be '12'
+        minutesforsunset = minutesforsunset < 10 ? '0' + minutesforsunset : minutesforsunset;
+        let sunsetDatetoput=hoursforsunset+':'+minutesforsunset+' '+ampmforsunset;
+       
+        sunrisetime.innerHTML=sunriseDatetoput;
+        sunsettime.innerHTML=sunsetDatetoput;
 
     
         
@@ -163,6 +176,7 @@ function display(data){
     
         weather_Icon.style.display = 'block'; // makes the image visible 
         // console.log(data);
+        return timezoneOffset;
     }
 }
 function displaynext4days(data){
@@ -293,9 +307,12 @@ function displaynext4days(data){
   
 
 }
-function displayabout24hrs(data){// gets an array
+function displayabout24hrs(data,timezoneOffset){// gets an array
      // Find the element with the ID 'hourly-forecast'
     //  console.log(data);
+    // console.log("timezone");
+    // console.log(timezoneOffset);
+
      let dayinfo = document.getElementById('dayinfo');
      let Upcoming24hr=document.querySelector(".Upcoming24hr");
      dayinfo.style.display='none';
@@ -317,14 +334,16 @@ function displayabout24hrs(data){// gets an array
         if (dayinfo.children[divcount]) {
             
          // Convert timestamp to a Date object
-         let dateTime = new Date(item.dt * 1000);
-         // Get the hour from the Date object
-         let hours = dateTime.getHours();
-         let minutes = dateTime.getMinutes();
+        //  console.log("neeche");
+        //  console.log(item);
+         let dateTime = new Date((item.dt+timezoneOffset)* 1000);
+         let hours = dateTime.getUTCHours();
+         let minutes = dateTime.getUTCMinutes();
          let ampm = hours >= 12 ? 'PM' : 'AM';
          hours = hours % 12;
          hours = hours ? hours : 12; // the hour '0' should be '12'
          minutes = minutes < 10 ? '0' + minutes : minutes;
+     
          
          let formattedTime = hours + ':' + minutes + ' ' + ampm;
          // Convert temperature from Kelvin to Celsius and round it
@@ -350,7 +369,7 @@ function displayabout24hrs(data){// gets an array
          Upcoming24hr.style.display='block';
          
          let screenwidth=window.screen.width;
-         console.log(screenwidth);
+        //  console.log(screenwidth);
          if(screenwidth>768){
             dayinfo.style.display='block';
             dayinfo.style.display='flex';
@@ -408,13 +427,14 @@ function getweather(){
         
     }
     if (city||latitude!=-1&&longitude!=-1) {
+        let timezoneoflocation;
         
       
     // now fetching the data
     fetch(currentWeatherUrl)
     .then(response => response.json()) //converting in json
     .then(data => {
-        display(data); // to diplay
+        timezoneoflocation=display(data); // to diplay
     })
     .catch(error => {
         console.error('Error occured while fetching the data:', error);
@@ -424,7 +444,7 @@ function getweather(){
     fetch(forecastUrl)
       .then(response => response.json()) // Converting to JSON
       .then(data => {
-          displayabout24hrs(data.list); // To display forecast
+          displayabout24hrs(data.list,timezoneoflocation); // To display forecast
           displaynext4days(data.list);
       })
       .catch(error => {
