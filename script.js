@@ -179,14 +179,14 @@ function display(data){
         return timezoneOffset;
     }
 }
-function displaynext4days(data){
+function displaynext4days(data,timezoneoflocation){
     let fourdaysclass=document.querySelector(".fourdays");
     let nextfourdays = document.getElementById('nextfourdays');
     let grid_item=document.querySelectorAll(".grid-item");
 
     fourdaysclass.style.display='none';
     nextfourdays.style.display='none';
-
+    // console.log(data);
 
    if (!data) { // If data is empty
     return;
@@ -196,11 +196,13 @@ function displaynext4days(data){
 
     // Process the forecast data
     data.forEach(item => {
-        // Convert timestamp to a Date object
-        let dateTime = new Date(item.dt * 1000);
-        // Extract the date string in YYYY-MM-DD format
-        let dateStr = dateTime.toISOString().split('T')[0];
-        // Extract the weekday name
+        let utcDateTime = new Date(item.dt * 1000); // UTC Date
+        let dateTime = new Date(utcDateTime.getTime() + timezoneoflocation * 1000); // Adjusted to Local Time
+        
+        // Extract the date string in YYYY-MM-DD format using local time
+        let dateStr = dateTime.toLocaleDateString('en-CA'); // 'en-CA' for YYYY-MM-DD format
+        
+        // Extract the weekday name using local time
         let weekday = dateTime.toLocaleDateString('en-US', { weekday: 'long' });
     
         // Convert temperature from Kelvin to Celsius and round it
@@ -445,7 +447,7 @@ function getweather(){
       .then(response => response.json()) // Converting to JSON
       .then(data => {
           displayabout24hrs(data.list,timezoneoflocation); // To display forecast
-          displaynext4days(data.list);
+          displaynext4days(data.list,timezoneoflocation);
       })
       .catch(error => {
           console.error('Error occurred while fetching the forecast data:', error);
