@@ -196,15 +196,19 @@ function displaynext4days(data,timezoneoflocation){
 
     // Process the forecast data
     data.forEach(item => {
-        let utcDateTime = new Date(item.dt * 1000); // UTC Date
-        let dateTime = new Date(utcDateTime.getTime() + timezoneoflocation * 1000); // Adjusted to Local Time
         
-        // Extract the date string in YYYY-MM-DD format using local time
-        let dateStr = dateTime.toLocaleDateString('en-CA'); // 'en-CA' for YYYY-MM-DD format
+        // Adjust the time by manually applying the timezone offset
+        let dateTime = new Date((item.dt + timezoneoflocation) * 1000); // Correctly adjusted to local time
         
-        // Extract the weekday name using local time
-        let weekday = dateTime.toLocaleDateString('en-US', { weekday: 'long' });
-    
+      
+        let year = dateTime.getUTCFullYear();
+        let month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0'); // getUTCMonth is zero-based
+        let day = dateTime.getUTCDate().toString().padStart(2, '0');
+        let dateStr = `${year}-${month}-${day}`; // YYYY-MM-DD format
+        
+       //used javascript internationalization api
+        let weekdayOptions = { weekday: 'long', timeZone: 'UTC' }; 
+        let weekday = new Intl.DateTimeFormat('en-US', weekdayOptions).format(dateTime);
         // Convert temperature from Kelvin to Celsius and round it
         let temperature = Math.round(item.main.temp - 273.15);
         let weatherDescription = item.weather[0].description;
