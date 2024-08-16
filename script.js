@@ -81,7 +81,7 @@ function display(data){
         let temperature = Math.round(data.main.temp - 273.15); 
         let timezoneOffset = data.timezone; // getting Timezone from data 
         let utctime=data.dt;
-        let timee = new Date(utctime* 1000); 
+        let timee = new Date((utctime+timezoneOffset)* 1000); 
         let get_humidity=data.main.humidity;
         let get_visibility=data.visibility/1000; // in km
         let get_windspeed=data.wind.speed; 
