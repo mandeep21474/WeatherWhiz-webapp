@@ -124,7 +124,7 @@ function display(data){
         // for sunset time
         let hoursforsunset = sunsetDate.getUTCHours();
         let minutesforsunset = sunsetDate.getUTCMinutes();
-        let ampmforsunset = hours >= 12 ? 'PM' : 'AM';
+        let ampmforsunset = hoursforsunset >= 12 ? 'PM' : 'AM';
         hoursforsunset = hoursforsunset % 12;
         hoursforsunset = hoursforsunset ? hoursforsunset : 12; // the hour '0' should be '12'
         minutesforsunset = minutesforsunset < 10 ? '0' + minutesforsunset : minutesforsunset;
