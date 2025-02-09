@@ -51,7 +51,7 @@ function display(data){
 
     // weather_Icon='';
     if(data.cod==='404'){
-        aboutweather.innerHTML = `<p><img src="pics/error.webp" width="200" heigth="600"></p>`;
+        aboutweather.innerHTML = `<p id="err"><img src="pics/error.webp" width="200" heigth="600"></p>`;
         let allinfo=document.getElementById('Allinfo');
         let divexist=document.getElementById('citynotfoud');
         if(!divexist){  //creating if no div exist
@@ -59,7 +59,7 @@ function display(data){
         right.style.display='none';
         let newdiv= document.createElement('div');
         newdiv.id="citynotfoud";
-        newdiv.innerHTML = `<p>Location not found</p>`;
+        newdiv.innerHTML = `<p id="notfound">Location not found</p>`;
         newdiv.className='fade-in';
         aboutweather.classList.add('slide-up');
         allinfo.appendChild(newdiv);
@@ -144,8 +144,12 @@ function display(data){
         humidity.innerHTML=`<img src="pics/humidity.png" height="25" width="25"><p> Humidity <br>${get_humidity}%</p>`;
         visibility.innerHTML=` <img src="pics/visibility.png" height="25" width="25"><p>Visibility  <br>${get_visibility} km</p>`;
         windspeed.innerHTML=`<img src="pics/windy.png" height="25" width="25"> <p> Wind Speed  <br>${get_windspeed} km/h</p>`;
-        otherinfo.style.display='block';
-        otherinfo.style.display='flex';
+        // otherinfo.style.display='block';
+        humidity.style.marginBottom='30px';
+        visibility.style.marginBottom='30px';
+        windspeed.style.marginBottom='30px';
+        // otherinfo.style.display='flex';
+        otherinfo.style.display='grid';
         sunriseimg.style.display='block';
         sunsetimg.style.display='block';
         clouds.style.display='block';
@@ -320,6 +324,7 @@ function displayabout24hrs(data,timezoneOffset){// gets an array
     // console.log(timezoneOffset);
 
      let dayinfo = document.getElementById('dayinfo');
+     
      let Upcoming24hr=document.querySelector(".Upcoming24hr");
      dayinfo.style.display='none';
      Upcoming24hr.style.display='none';
@@ -376,14 +381,15 @@ function displayabout24hrs(data,timezoneOffset){// gets an array
          
          let screenwidth=window.screen.width;
         //  console.log(screenwidth);
-         if(screenwidth>768){
-            dayinfo.style.display='block';
-            dayinfo.style.display='flex';
-         }
-         else{
-            dayinfo.style.display='grid';
+        //  if(screenwidth>768){
+        //     dayinfo.style.display='block';
+        //     dayinfo.style.display='flex';
+        //  }
+        //  else{
+        //     dayinfo.style.display='block';
 
-         }
+        //  }
+        dayinfo.style.display='flex';
     
 
          Upcoming24hr.classList.add('drag-right');
@@ -450,6 +456,7 @@ function getweather(){
     fetch(forecastUrl)
       .then(response => response.json()) // Converting to JSON
       .then(data => {
+
           displayabout24hrs(data.list,timezoneoflocation); // To display forecast
           displaynext4days(data.list,timezoneoflocation);
       })
