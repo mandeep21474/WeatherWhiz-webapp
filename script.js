@@ -302,6 +302,12 @@ function displaynext4days(data,timezoneoflocation){
         nextfourdays.children[child++].innerHTML = `<img src="${iconUrl}" alt="Hourly Weather Icon">`;
         nextfourdays.children[child++].innerHTML = `<span>${mostFrequentget}</span>`;
         nextfourdays.children[child++].innerHTML = `<span class="temp">${mintempget}/${maxtempget}°C</span>`;
+        const mediaQuery = window.matchMedia('(max-width: 768px)');
+        if(mediaQuery.matches){
+        //    console.log(child);
+        nextfourdays.children[child-1].style.marginBottom="30px";
+
+        }
     }
       
     fourdaysclass.style.display='block';
