@@ -339,14 +339,100 @@ body {
 }
 
 /* Responsive Design */
-@media (max-width: 1200px) {
+@media screen and (max-width: 768px) {
+    
     body {
         grid-template-columns: 1fr;
-        padding: 1rem;
+        padding: 1rem; 
+        gap: 1rem;
+        overflow-x: hidden; 
     }
 
     #left, #right {
+        padding: 1.5rem;
         width: 100%;
-        margin-bottom: 2rem;
+        min-width: 0; 
     }
+    #search {
+        display: grid;
+        gap: 1rem;
+        margin-bottom: 2rem;
+        position: relative;
+        /* background-color: #00b4d8; */
+       
+    }
+
+    #City{
+        width: 100%;
+        padding: 30px;
+        height: 10px;
+        padding-left: 40px;
+        /* margin: 0px; */
+        
+
+    }
+    #butt{
+        width: 100%;
+        padding: 0px;
+        height: 40px;
+
+    }
+
+
+    #sunrisetime{
+        position: static !important; 
+        left: auto !important;
+        top: auto !important;
+        margin: 0.5rem 0;
+        text-align: center;
+    }
+    #sunsettime{
+        position: relative;
+        top: -80px;
+        left: 0px;
+    }
+
+    #sunrise, #sunset, #clouds {
+        display: block;
+        margin: 0 auto;
+        position: static;
+        transform: none;
+    }
+    #clouds{
+        position: relative;
+    }
+
+    #aboutsun {
+        height: auto;
+        text-align: center;
+    }
+
+    #otherinfo {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+
+    #geolocation {
+        left: 4px;
+        top: 25% !important; 
+        transform: translateY(-50%);
+    }
+
+    
+    .hourly-item {
+        min-width: 70px; 
+        padding: 0.5rem;
+    }
+    #rightbottom {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    
+    #nextfourdays, #otherinfo {
+        grid-template-columns: 1fr;
+    }
+
+        
 }
